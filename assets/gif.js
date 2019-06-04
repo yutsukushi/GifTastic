@@ -1,7 +1,7 @@
 // button click function here
 $(document).ready(function() {
     
-var topics = ["Darth Vader", "Chewbacca", "Kylo Ren", "Darth Maul", "Princess Leia", "Obi-Wan Kenobi", "Storm Trooper", "Luke Skywalker", "Han Solo"];
+var topics = ["Darth Vader", "Chewbacca", "Kylo Ren", "Darth Maul", "Princess Leia", "Obi-Wan Kenobi", "Storm Trooper", "Luke Skywalker", "Han Solo", "Yoda"];
 
 for (var i = 0; i < topics.length; i++) { //Your app should take the topics in this array and create buttons in your HTML.
 
@@ -39,39 +39,35 @@ $("#gif-buttons").on("click", "button.topics", function(){ //delegated on click 
         var gifRatings = gifResults[j].rating; //JSON dot notation for the gif ratings
         var gifImage = $("<img>"); //creates img tag
     
-        gifImage.attr("src", gifResults[j].images.fixed_height.url); //applies src attribute to img tag with the JSON dot notation
-        // gifImage.attr("data-still", gifResults[j].images.fixed_height_still.url);
-        // gifImage.attr("data-animate", gifResults[j].images.fixed_height.url);
-        // gifImage.attr("class", "data-state");
+        gifImage.attr("src", gifResults[j].images.fixed_height_still.url); //applies src attribute to img tag with the JSON dot notation
+        gifImage.attr("data-still", gifResults[j].images.fixed_height_still.url);
+        gifImage.attr("data-animate", gifResults[j].images.fixed_height.url);
+        gifImage.attr("data-state", "still");
+        gifImage.attr("class", "gif");
 
         gifDiv.append(p); //appends the p variable value to div tag
         gifDiv.append(gifImage); //appends img tag w src attribute to div tag
         
         $("#load-gifs-here").prepend(gifDiv); //prepends each gif to the load-gifs-here ID
-        
-        // gifBehavior();
     }
 
-    
+    $(".gif").on("click", function(){
+
+        var state = $(this).attr("data-state");
+
+        if (state === "still") {
+            $(this).attr("src", $(this).attr("data-animate"));
+            $(this).attr("data-state", "animate");
+          } else {
+            $(this).attr("src", $(this).attr("data-still"));
+            $(this).attr("data-state", "still");
+          }
+        
+        })
+
     })
 
-    function gifBehavior() { // When the user clicks one of the still GIPHY images, the gif should animate. If the user clicks the gif again, it should stop playing.
 
-    //     var state = $(this).attr("data-state");
-    // // var gifStill = gifResults[j].images.fixed_height_still.url;
-    // // var gifAnimate = gifResults[j].images.fixed_height.url;
-    //     if (state === "still") {
-
-    //         $(this).attr("src", $(this).attr("data-animate"));
-    //         $(this).attr("data-state", "animate");
-
-    //         } else {
-
-    //         $(this).attr("src", $(this).attr("data-still"));
-    //         $(this).attr("data-state", "still");
-
-    //     }
-    }
 
 //     function userInput() { // Add a form to your page that takes a value from a user input box and adds it to your `topics` array. Then make a function call that takes each topic in the array and remakes the buttons on the page.
 
